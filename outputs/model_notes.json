@@ -1,0 +1,6 @@
+{
+  "method": "75/25 train-test split, random state 42",
+  "regression_metrics": "Lower MAE/RMSE is better; higher R2 is better.",
+  "classification_metrics": "Accuracy, balanced accuracy, and macro F1 are higher-is-better.",
+  "important_limit": "These public, observational datasets show association only. They do not establish that one health factor causes another."
+}

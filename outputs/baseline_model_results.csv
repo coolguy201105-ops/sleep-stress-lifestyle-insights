@@ -1,0 +1,16 @@
+dataset,task,target,model,test_rows,MAE,RMSE,R2,accuracy,balanced_accuracy,f1_macro
+sleep_health_lifestyle,regression,Stress Level,dummy_mean,33,1.4101622283440465,1.6347104755720523,-3.818251240939041e-05,,,
+sleep_health_lifestyle,regression,Stress Level,linear_regression,33,0.2988763812343267,0.8856819547713072,0.7064443231157411,,,
+sleep_health_lifestyle,regression,Stress Level,random_forest,33,0.22047049863716517,0.39541140556236015,0.9414895719458609,,,
+sleep_health_lifestyle,regression,Quality of Sleep,dummy_mean,33,1.0431588613406793,1.1929459710258283,-0.001148435256962399,,,
+sleep_health_lifestyle,regression,Quality of Sleep,linear_regression,33,0.168038747849784,0.48357384762473005,0.8354937000064137,,,
+sleep_health_lifestyle,regression,Quality of Sleep,random_forest,33,0.11495382395382397,0.2910370334736495,0.940412737574243,,,
+sleep_health_lifestyle,classification,Sleep Disorder,dummy_majority_class,15,,,,0.4666666666666667,0.5,0.3181818181818182
+sleep_health_lifestyle,classification,Sleep Disorder,logistic_regression,15,,,,0.8,0.8035714285714286,0.8
+sleep_health_lifestyle,classification,Sleep Disorder,random_forest,15,,,,0.8,0.8035714285714286,0.8
+sleep_efficiency,regression,Sleep efficiency,dummy_mean,113,0.11952619625655886,0.13892505998656376,-3.651960088113526e-06,,,
+sleep_efficiency,regression,Sleep efficiency,linear_regression,113,0.049846673349957404,0.06233631014769023,0.7986634681376064,,,
+sleep_efficiency,regression,Sleep efficiency,random_forest,113,0.03839404419245119,0.051270223540508905,0.863801971207292,,,
+sleep_efficiency,regression,Awakenings,dummy_mean,108,1.2006172839506173,1.3664859862498713,-0.005586592178770555,,,
+sleep_efficiency,regression,Awakenings,linear_regression,108,0.7973768540082048,1.0060322021933872,0.4549543544882365,,,
+sleep_efficiency,regression,Awakenings,random_forest,108,0.7337498786364528,0.8836742661222067,0.5794733481145196,,,
