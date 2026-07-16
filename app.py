@@ -51,7 +51,10 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 @st.cache_data
 def load_lifestyle() -> pd.DataFrame:
-    df = pd.read_csv(ROOT / "Sleep_health_and_lifestyle_dataset.csv")
+    # keep_default_na=False avoids pandas silently reading the literal string
+    # "None" in the Sleep Disorder column as a missing value (it is one of
+    # pandas' default NA markers), which would wrongly drop the majority class.
+    df = pd.read_csv(ROOT / "Sleep_health_and_lifestyle_dataset.csv", keep_default_na=False, na_values=[""])
     df.columns = [c.strip() for c in df.columns]
     df = df.drop(columns=["Person ID"]).drop_duplicates().reset_index(drop=True)
     split_bp = df["Blood Pressure"].str.split("/", expand=True)

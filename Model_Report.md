@@ -111,17 +111,27 @@ interaction effects — e.g., stress may not simply scale evenly with sleep dura
 *Interpretation:* Same pattern — sleep quality is well-predicted by the available features,
 with Random Forest again ahead, though Linear Regression is already quite strong here.
 
-**Target: Sleep Disorder (None / Insomnia / Sleep Apnea) — 15 test rows**
+**Target: Sleep Disorder (None / Insomnia / Sleep Apnea) — 33 test rows**
 
 | Model | Accuracy | Balanced Accuracy | Macro F1 |
 |---|---|---|---|
-| Dummy (always predicts "None") | 46.7% | 50.0% | 0.32 |
-| Logistic Regression | 80.0% | 80.4% | 0.80 |
-| Random Forest | 80.0% | 80.4% | 0.80 |
+| Dummy (always predicts "None") | 54.5% | 33.3% | 0.24 |
+| Logistic Regression | 63.6% | 60.4% | 0.59 |
+| Random Forest | 66.7% | 62.2% | 0.61 |
 
-*Interpretation:* Both real models tie and clearly beat guessing the majority class. With
-only 15 test rows, treat these numbers as a promising early signal, not a precise estimate —
-larger data would be needed to say more confidently which model generalizes better.
+*Interpretation:* Random Forest is the best of the three, beating the dummy baseline by about
+12 points of accuracy and nearly 30 points of balanced accuracy (balanced accuracy matters
+more here since "None" is the majority class). Still, 63–67% accuracy on a 3-class problem is
+a modest result — sleep disorder status is harder to predict from these lifestyle features
+alone than stress or sleep quality were. Treat this as an early signal, not a diagnostic tool.
+
+> **Data-cleaning note:** an earlier version of this analysis accidentally read the literal
+> text `"None"` in the Sleep Disorder column as a missing value, because `"None"` happens to
+> be one of pandas' default missing-value markers. That silently dropped the entire majority
+> class (219 of 374 rows) and made the classification task look artificially easier ("None"
+> vs. picking between only two disorder types). The loading code now explicitly disables that
+> behavior (`keep_default_na=False`) so "None" is treated as a real category. The numbers
+> above are the corrected, three-class results.
 
 ### Dataset: `Sleep_Efficiency.csv` (452 rows, 113 or 108 held out for testing depending on target)
 
@@ -162,13 +172,15 @@ suggests, and mention this explicitly as a limitation in the final report.
 
 ## Overall Takeaways for the Final Report
 
-1. **Stress, sleep quality, sleep efficiency, and sleep disorder status** are all meaningfully
-   predictable from lifestyle and physiological features — far better than chance.
-2. **Awakenings** are the hardest target to predict, suggesting unmeasured factors matter here.
-3. **Random Forest generally wins**, but Linear/Logistic Regression is competitive enough to be
+1. **Stress, sleep quality, and sleep efficiency** are all strongly predictable from lifestyle
+   and physiological features (R² of 0.86–0.94), far better than chance.
+2. **Sleep disorder status** is predictable better than chance, but only modestly (63–67%
+   accuracy on three classes) — this is a promising direction, not a reliable classifier.
+3. **Awakenings** are the hardest target to predict, suggesting unmeasured factors matter here.
+4. **Random Forest generally wins**, but Linear/Logistic Regression is competitive enough to be
    the model you *explain* in the report, while Random Forest is the model you *cite for best
    accuracy* and for feature-importance rankings.
-4. All results are **associations in observational data**, not proof of cause and effect — keep
+5. All results are **associations in observational data**, not proof of cause and effect — keep
    this limitation in every conclusion you write.
 
 ## Suggested Next Step

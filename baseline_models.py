@@ -192,7 +192,12 @@ def main() -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     all_results = []
 
-    lifestyle = pd.read_csv(ROOT / "Sleep_health_and_lifestyle_dataset.csv")
+    # keep_default_na=False avoids pandas silently reading the literal string
+    # "None" in the Sleep Disorder column as a missing value (it is one of
+    # pandas' default NA markers), which would wrongly drop the majority class.
+    lifestyle = pd.read_csv(
+        ROOT / "Sleep_health_and_lifestyle_dataset.csv", keep_default_na=False, na_values=[""]
+    )
     lifestyle.columns = [column.strip() for column in lifestyle.columns]
     lifestyle = save_prepared_data(lifestyle.drop(columns=["Person ID"]), "sleep_health_lifestyle")
     plot_main_dataset(lifestyle)
