@@ -15,6 +15,33 @@ as well.
 
 ---
 
+## All Datasets in This Project Folder
+
+Five raw CSV files were collected while researching this project. Two are used in the models
+above; the rest were reviewed and set aside for the reasons noted below.
+
+| File | Rows × Cols | Used? | What it provides |
+|---|---|---|---|
+| `Sleep_health_and_lifestyle_dataset.csv` | 374 × 13 | ✅ Yes (main dataset) | Per-person sleep duration, self-rated sleep quality (1–10), **physical activity in minutes/day of dedicated exercise** (not steps around the house — that's a separate column), stress level (1–10), BMI category, blood pressure, resting heart rate, daily steps, and diagnosed sleep disorder (`None`/`Insomnia`/`Sleep Apnea`). |
+| `Sleep_Efficiency.csv` | 452 × 15 | ✅ Yes (supporting dataset) | Per-person bedtime/wake time, sleep duration, **sleep efficiency** (% of time in bed actually asleep), REM/deep/light sleep stage percentages, nightly awakenings, caffeine (mg) and alcohol intake, smoking status, and weekly exercise frequency. |
+| `dataset_2191_sleep.csv` | 62 × 8 | ❌ Excluded | **Animal data, not human.** Columns are body/brain weight, max lifespan, gestation time, predation/danger indexes, and total sleep hours per species. Kept for reference only; irrelevant to a human biomedical study. |
+| `wearable_tech_sleep_quality_1.csv` | 1,000 × 9 | ❌ Not used | Simulated wearable-sensor readings: heart-rate variability, body temperature, movement during sleep, sleep duration/quality score, caffeine intake, stress level, bedtime consistency, and light exposure. Interesting for a future device-based extension, but it has no demographic columns (age/gender/occupation) and appears to be synthetic rather than real survey data, so it wasn't combined with the two main datasets. |
+| `Health_Sleep_Statistics.csv` | 100 × 12 | ❌ Not used | Per-person age, gender, self-rated sleep quality, bedtime/wake time, daily steps, calories burned, physical activity level, dietary habits (healthy/unhealthy), presence of a sleep disorder, and medication usage. Overlaps heavily with the main dataset's fields but has a much smaller sample (100 people) and no stress-level column, so it wasn't included in the modeling to avoid mixing incompatible small samples. |
+
+**Why only two datasets were modeled together:** each dataset was collected differently, has
+different columns, and (for the wearable/health files) a much smaller or synthetic sample.
+Mixing them into one model would risk mixing apples-and-oranges data. The two datasets that
+*were* used were still kept and analyzed **separately**, never merged row-by-row.
+
+> **Clarifying "Physical Activity Level":** in the main dataset, this is minutes per day spent
+> on dedicated physical activity/exercise (e.g., a workout, a run, a sports practice) — it is
+> **not** the same as just moving around the house, and it's a different column from
+> `Daily Steps`. A value of 30 is closer to a short daily walk or light workout; 60 is an
+> average amount of daily exercise for people in this dataset; 90 is a serious, dedicated daily
+> exercise routine (e.g., the nurses in this sample average close to that).
+
+---
+
 ## 1. Dummy Baseline (`DummyRegressor` / `DummyClassifier`)
 
 **How it works:** This model ignores every input feature. For regression targets, it always

@@ -627,11 +627,12 @@ def _stress_quality_disorder_predictor():
             sleep_duration = st.slider("Sleep duration (hrs/night)", 3.0, 10.0, 7.0, 0.1)
             baseline_caption(base["Sleep Duration"], " hrs", precision=1)
             activity = st.slider(
-                "Activity level (0-100 scale)", 0, 100, 58,
-                help="A relative activity score used in this dataset — not minutes or steps. "
-                "30 ≈ mostly sedentary desk job, 60 ≈ average, 90 ≈ very active (e.g., nurse).",
+                "Physical activity (minutes/day)", 0, 120, 58,
+                help="Minutes per day of dedicated exercise (a workout, run, sports practice) — "
+                "not just steps around the house, and not the same as the Daily Steps field below. "
+                "~30 min ≈ a short daily walk/workout, ~60 min ≈ average, ~90 min ≈ a serious daily routine.",
             )
-            baseline_caption(base["Physical Activity Level"])
+            baseline_caption(base["Physical Activity Level"], " min/day")
             bmi = st.selectbox(
                 "Body weight category", sorted(base["BMI Category"].dropna().unique()),
                 help="If unsure, pick 'Normal' as a default.",
