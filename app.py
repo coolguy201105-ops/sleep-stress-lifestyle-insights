@@ -606,9 +606,10 @@ def _stress_quality_disorder_predictor():
         with col1:
             gender = st.selectbox("Gender", sorted(base["Gender"].dropna().unique()))
             age = st.slider("Age", 18, 80, 25)
+            occupation_options = sorted(base["Occupation"].dropna().unique().tolist()) + ["Unemployed", "Retired"]
             occupation = st.selectbox(
-                "Occupation", sorted(base["Occupation"].dropna().unique()),
-                help="Pick whichever is closest to your situation.",
+                "Occupation", occupation_options,
+                help="Pick whichever is closest to your situation, or choose Unemployed/Retired.",
             )
         with col2:
             sleep_duration = st.slider("Sleep duration (hrs/night)", 3.0, 10.0, 7.0, 0.1)
