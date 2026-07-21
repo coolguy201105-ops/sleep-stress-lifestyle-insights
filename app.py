@@ -371,6 +371,17 @@ def footer():
     st.caption("🎓 Student project · Public Kaggle data · Educational use only, not medical advice.")
 
 
+def baseline_caption(series: pd.Series, unit: str = "", precision: int = 0):
+    """Show what a 'typical' value looks like in the real dataset, computed live from the data."""
+    clean = series.dropna()
+    if clean.empty:
+        return
+    p25, p75 = clean.quantile([0.25, 0.75])
+    avg = clean.mean()
+    fmt = f"{{:.{precision}f}}"
+    st.caption(f"📏 Typical range here: {fmt.format(p25)}–{fmt.format(p75)}{unit} · average ≈ {fmt.format(avg)}{unit}")
+
+
 # ---------------------------------------------------------------------------
 # Page: Overview
 # ---------------------------------------------------------------------------
@@ -606,6 +617,7 @@ def _stress_quality_disorder_predictor():
         with col1:
             gender = st.selectbox("Gender", sorted(base["Gender"].dropna().unique()))
             age = st.slider("Age", 18, 80, 25)
+            baseline_caption(base["Age"], " yrs")
             occupation_options = sorted(base["Occupation"].dropna().unique().tolist()) + ["Unemployed", "Retired"]
             occupation = st.selectbox(
                 "Occupation", occupation_options,
@@ -613,16 +625,26 @@ def _stress_quality_disorder_predictor():
             )
         with col2:
             sleep_duration = st.slider("Sleep duration (hrs/night)", 3.0, 10.0, 7.0, 0.1)
-            activity = st.slider("Activity level (0-100)", 0, 100, 50)
+            baseline_caption(base["Sleep Duration"], " hrs", precision=1)
+            activity = st.slider(
+                "Activity level (0-100 scale)", 0, 100, 58,
+                help="A relative activity score used in this dataset — not minutes or steps. "
+                "30 ≈ mostly sedentary desk job, 60 ≈ average, 90 ≈ very active (e.g., nurse).",
+            )
+            baseline_caption(base["Physical Activity Level"])
             bmi = st.selectbox(
                 "Body weight category", sorted(base["BMI Category"].dropna().unique()),
                 help="If unsure, pick 'Normal' as a default.",
             )
         with col3:
             systolic = st.slider("Blood pressure — top (systolic)", 90, 180, 120, help="Normal is roughly 120.")
+            baseline_caption(base["Systolic BP"])
             diastolic = st.slider("Blood pressure — bottom (diastolic)", 60, 120, 80, help="Normal is roughly 80.")
+            baseline_caption(base["Diastolic BP"])
             heart_rate = st.slider("Resting heart rate (bpm)", 50, 110, 72)
+            baseline_caption(base["Heart Rate"], " bpm")
             steps = st.slider("Daily steps", 1000, 15000, 6000, 500)
+            baseline_caption(base["Daily Steps"])
 
         submitted = st.form_submit_button("🔮 Get my prediction", type="primary", use_container_width=True)
 
@@ -698,13 +720,18 @@ def _efficiency_predictor():
         col1, col2 = st.columns(2)
         with col1:
             age = st.slider("Age", 9, 90, 30, key="eff_age")
+            baseline_caption(base["Age"], " yrs")
             gender = st.selectbox("Gender", sorted(base["Gender"].dropna().unique()), key="eff_gender")
             sleep_duration = st.slider("Sleep duration (hrs/night)", 3.0, 12.0, 7.5, 0.1, key="eff_duration")
+            baseline_caption(base["Sleep duration"], " hrs", precision=1)
         with col2:
             caffeine = st.slider("Caffeine (mg/day)", 0, 200, 0, 25, help="A cup of coffee is roughly 95mg.")
+            baseline_caption(base["Caffeine consumption"], " mg")
             alcohol = st.slider("Alcoholic drinks/day", 0, 5, 0)
+            baseline_caption(base["Alcohol consumption"], " drinks", precision=1)
             smoking = st.selectbox("Do you smoke?", sorted(base["Smoking status"].dropna().unique()))
             exercise = st.slider("Exercise (times/week)", 0, 7, 3)
+            baseline_caption(base["Exercise frequency"], "x/week", precision=1)
 
         submitted = st.form_submit_button("🔮 Get my prediction", type="primary", use_container_width=True)
 
