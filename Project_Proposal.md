@@ -20,39 +20,30 @@ higher rates of sleep disorders, and lower sleep efficiency than those with long
 quality sleep.
 
 ## Data Sources
-Two public, de-identified datasets from Kaggle:
+Two public, de-identified Kaggle datasets (an unrelated animal-sleep dataset was excluded):
 1. **Sleep Health & Lifestyle Dataset** (374 records) — sleep duration/quality, stress level,
    physical activity, BMI, blood pressure, heart rate, daily steps, sleep disorder diagnosis.
 2. **Sleep Efficiency Dataset** (452 records) — sleep duration/efficiency, sleep-stage
    percentages, awakenings, caffeine/alcohol use, smoking status, exercise frequency.
 
-An unrelated animal-sleep dataset found during data collection was deliberately excluded.
-
 ## Methods
-1. **Data cleaning** — remove duplicate records, fix data-parsing errors (e.g., correcting a
-   pandas bug that misread the text "None" as missing data), handle missing values.
+1. **Data cleaning** — remove duplicates, fix data-parsing errors, handle missing values.
 2. **Exploratory analysis** — visualize relationships (e.g., stress by sleep-duration group).
-3. **Predictive modeling** — for each target (stress level, sleep quality, sleep disorder,
-   sleep efficiency, awakenings), train and compare three models of increasing complexity:
-   a naive baseline, an interpretable linear/logistic regression, and a random forest.
-   Evaluate with held-out test data (MAE/RMSE/R² for numeric targets; accuracy/F1 for
-   categorical targets).
-4. **Interpretation** — use model outputs and feature-importance rankings to identify the
-   strongest predictors of poor sleep and high stress.
+3. **Predictive modeling** — for each target (stress, sleep quality, sleep disorder, sleep
+   efficiency, awakenings), train and compare a naive baseline, an interpretable
+   linear/logistic regression, and a random forest, evaluated on held-out test data.
+4. **Interpretation** — use feature-importance rankings to identify the strongest predictors.
 
 ## Deliverables
-- A public, interactive website (built with Streamlit, deployed online) letting users explore
-  the data, compare model performance, and test their own lifestyle inputs against the models.
+- A public, interactive website (Streamlit, already deployed) for exploring the data, comparing
+  model accuracy, and testing personal lifestyle inputs against the models.
 - A full written report documenting methodology, results, and limitations.
-- A one-page, evidence-based recommendation sheet for Irvine students and families on
-  improving sleep and managing stress.
+- A one-page recommendation sheet for Irvine students and families on sleep and stress.
 
 ## Ethics & Limitations
-- Data is public, de-identified, and not collected in Irvine — findings represent general
-  patterns, not local statistics.
-- All results describe **associations**, not proof of cause and effect.
-- The project and its predictor tool are educational only and are not a diagnostic or medical
-  tool.
+- Data is public and not collected in Irvine — findings represent general patterns, not local
+  statistics. All results describe **associations**, not proof of cause and effect.
+- The project and predictor tool are educational only, not a diagnostic or medical tool.
 
 ## Timeline
 | Week | Task |

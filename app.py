@@ -278,6 +278,25 @@ def inject_css():
             font-size: 14px;
             margin: 10px 0 18px 0;
         }
+        [data-testid="stSidebar"] {
+            min-width: 320px;
+        }
+        [data-testid="stSidebar"] .stButton button {
+            width: 100%;
+            justify-content: flex-start;
+            text-align: left;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 12px;
+            min-height: 56px;
+            line-height: 1.3;
+        }
+        [data-testid="stSidebar"] .stButton button p {
+            text-align: left;
+            font-size: 17px;
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -777,12 +796,26 @@ PAGES = {
 
 def main():
     inject_css()
+    if "nav_choice" not in st.session_state:
+        st.session_state["nav_choice"] = "🏠 Overview"
+
     with st.sidebar:
         st.markdown("## 🌙 Sleep Insights")
-        choice = st.radio("Go to:", list(PAGES.keys()), key="nav_choice", label_visibility="collapsed")
+        st.markdown("")
+        for page_key in PAGES:
+            is_active = st.session_state["nav_choice"] == page_key
+            if st.button(
+                page_key,
+                key=f"nav_btn_{page_key}",
+                use_container_width=True,
+                type="primary" if is_active else "secondary",
+            ):
+                st.session_state["nav_choice"] = page_key
+                st.rerun()
         st.markdown("---")
         st.caption("🎓 Student project\n\n📦 Public Kaggle data\n\n⚠️ Not medical advice")
-    PAGES[choice]()
+
+    PAGES[st.session_state["nav_choice"]]()
 
 
 if __name__ == "__main__":
